@@ -1,11 +1,74 @@
 'use strict';
-
-console.log('>> Ready :)');
-
-const input = document.querySelector('.input');
-const fourCards = document.querySelector('.four__cards');
-const sixCards = document.querySelector('.six__cards');
-const eightCards = document.querySelector('.eight__cards');
+ 
+const cards4 = document.querySelector('.four_cards');
+const cards6 = document.querySelector('.six_cards');
+const cards8 = document.querySelector('.eight_cards');
 const button = document.querySelector('.btn');
-const resultCards =document.querySelector('.result');
+const resultsCards = document.querySelector('.cards');
+
 const adalabCard = 'https://via.placeholder.com/160x195/30d9c4/ffffff/?text=ADALAB';
+let number = 0;
+
+function choosePairs() {
+  if (cards4.checked) {
+    number = 4;
+    saveData(4);
+  } else if (cards6.checked) {
+    number = 6;
+    saveData(6);
+  } else if (cards8.checked) {
+    number = 8;
+    saveData(8);
+  }
+  const api = `https://raw.githubusercontent.com/Adalab/cards-data/master/${number}.json`;
+  getResults(api);
+}
+button.addEventListener('click',choosePairs);
+
+function getResults(url) {
+  resultsCards.innerHTML = '';
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      for (const result of data) {
+        resultsCards.innerHTML += `
+        <li class="cards__list">
+          <img class="cards__adalab" src="${adalabCard}">
+          <img class="cards__pokemon hidden" src="${result.image}">
+        </li>`;
+
+      }
+      const cards = document.querySelectorAll('.cards__list');
+      for (const card of cards){
+        card.addEventListener('click',flipCards);
+      }
+    });
+  button.addEventListener('click',getResults);
+}
+
+function flipCards (event){
+  const cards = event.currentTarget;
+  const cardPokemon = cards.querySelector('.cards__pokemon');
+  const classAdalab = cards.querySelector('.cards__adalab');
+  cardPokemon.classList.toggle('hidden');
+  classAdalab.classList.toggle('hidden');
+}
+
+const storeCard = localStorage.getItem('inputValue');
+inputValue();
+
+function inputValue() {
+  if (storeCard === '4'){
+    cards4.checked = true;
+  } else if (storeCard === '6') {
+    cards6.checked = true;
+  } else if (storeCard === '8') {
+    cards8.checked = true;
+  }
+}
+
+function saveData(number){
+  localStorage.setItem('inputValue',number);
+}
+
+
