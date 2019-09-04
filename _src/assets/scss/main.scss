@@ -1,4 +1,4 @@
-@import "core/settings";
+@import "core/_settings";
 @import "layout/_header";
 
 body {
@@ -52,7 +52,9 @@ body {
   display: flex;
   justify-content: center;
   list-style: none;
-  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 6px;
+  margin: 0 15px;
 }
 .hidden {
   display: none;
