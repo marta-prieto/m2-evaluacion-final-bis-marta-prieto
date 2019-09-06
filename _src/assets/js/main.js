@@ -20,14 +20,22 @@ function choosePairs() {
     number = 8;
     saveData(8);
   }
-  const api = `https://raw.githubusercontent.com/Adalab/cards-data/master/${number}.json`;
-  getResults(api);
+  
 }
 button.addEventListener('click',choosePairs);
 
-function getResults(url) {
+function getResults() {
+  const inputs = document.querySelectorAll('.input');
+  for  (const input of inputs) {
+    if (input.checked === true) {
+      number = input.value;
+    }
+  }
+  
+  const api = `https://raw.githubusercontent.com/Adalab/cards-data/master/${number}.json`;
   resultsCards.innerHTML = '';
-  fetch(url)
+  
+  fetch(api)
     .then(response => response.json())
     .then(data => {
       for (const result of data) {
@@ -43,8 +51,10 @@ function getResults(url) {
         card.addEventListener('click',flipCards);
       }
     });
-  button.addEventListener('click',getResults);
+  
 }
+
+
 
 function flipCards (event){
   const cards = event.currentTarget;
@@ -54,7 +64,7 @@ function flipCards (event){
   classAdalab.classList.toggle('hidden');
 }
 
-const storeCard = localStorage.getItem('inputValue');
+/* const storeCard = localStorage.getItem('inputValue');
 inputValue();
 
 function inputValue() {
@@ -70,5 +80,36 @@ function inputValue() {
 function saveData(number){
   localStorage.setItem('inputValue',number);
 }
+ */
+
+function saveNumber (event){
+  const input = event.currentTarget;
+  localStorage.setItem('inputValue',input.value);
+ }
+function getNumber () {
+  let storeCard = localStorage.getItem('inputValue');
+  console.log(storeCard);
+  if(localStorage.getItem('inputValue') === null){
+    storeCard = '4';
+  }
+  const inputs = document.querySelectorAll('.input');
+  for (const input of inputs) {
+    console.log(input.value, storeCard);
+  
+    if (input.value === storeCard) { 
+      console.log('ahora');
+      input.setAttribute('checked', true);
+    }
+  }
+}
+getNumber();
 
 
+
+const inputs = document.querySelectorAll('.input');
+for  (const input of inputs) {
+   input.addEventListener('click', saveNumber) 
+
+  }
+
+button.addEventListener('click',getResults);
