@@ -64,23 +64,6 @@ function flipCards (event){
   classAdalab.classList.toggle('hidden');
 }
 
-/* const storeCard = localStorage.getItem('inputValue');
-inputValue();
-
-function inputValue() {
-  if (storeCard === '4'){
-    cards4.checked = true;
-  } else if (storeCard === '6') {
-    cards6.checked = true;
-  } else if (storeCard === '8') {
-    cards8.checked = true;
-  }
-}
-
-function saveData(number){
-  localStorage.setItem('inputValue',number);
-}
- */
 
 function saveNumber (event){
   const input = event.currentTarget;
